@@ -1,0 +1,11 @@
+{
+  "users": [{
+        "id":"1",    
+        "name": "atefeh",
+        "email": "atefeh@gamil.com",
+        "phoneNumber": "09334670011",
+        "password": "saeedsohbati",
+        "passwordConfirm": "saeedsohbati",
+       " gender":"1"
+  }
+  ]}
