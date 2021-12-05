@@ -4,6 +4,9 @@ import * as yup from 'yup';
 import axios from 'axios';
 import Input from '../common/Input';
 import RadioInput from '../common/RadioInput';
+import Select from '../common/SelectComponent';
+import CheckBoxInput from '../common/CheckBoxInput';
+import BooleanInput from '../common/BooleanInput';
 
 const initialValues = {
     name: '',
@@ -11,20 +14,30 @@ const initialValues = {
     phoneNumber:"",
     password: "",
     passwordConfirm: '',
-    gender:''
+    gender: '',
+    nationality: '',
+    intrests: [],
+    terms: false,
 }
 
 const SingUpForm = () => {
     const [formValues, setFormValues] = useState(null);
+    
     const radioOtion = [{ label: 'Male', value: '0' },
     { label: 'Female', value: '1' }];
+    const selectOption = [{ label: "select Option", value: '' }, { label: 'Iran', value: 'IR' },
+    { label: 'Germany', value: 'GEM' },
+        { label: 'USA', value: 'US' }];
     
+    const checkBoxOption=[{label:'React.js',value:"React.js"},{label:'Vue.js',value:'Vue.js'}]
     useEffect(() => {
-       axios.get(' http://localhost:3001/users/1').then(res=>setFormValues(res.data)).catch(err=>err) 
-    },[])
+        axios.get('http://localhost:3001/users/1').then(res=>setFormValues(res.data)).catch(err=>err) 
+    }, [])
+    
+   
 
     const onSubmit = (values) => {
-        
+        axios.post('http://localhost:3001/users', values).then(res => console.log(res)).catch(err => console.log(err));
     }
     const validationSchema = yup.object({
         name: yup.string().required('Name is required').min(6, 'Must be more than 6 characters'),
@@ -35,13 +48,16 @@ const SingUpForm = () => {
             .min(8, 'Password is too short - should be 8 chars minimum.')
             .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
         passwordConfirm: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
-        gender: yup.string().required('Select a gender is required')
+        gender: yup.string().required('Select a gender is required'),
+        nationality: yup.string().required('select one nationality'),
+        intrests: yup.array().min(1).required('at list select one expertise! '),
+        terms:yup.boolean().required('You must accept the terms and conditions').oneOf([true], "You must accept the terms and conditions"),
         
     });
+
+    const formik = useFormik({ initialValues: formValues || initialValues, onSubmit, validationSchema, validateOnMount: true, enableReinitialize: true });
     
-    const formik = useFormik({ initialValues:formValues||initialValues, onSubmit, validationSchema, validateOnMount: true, enableReinitialize:true});
-    
-    return (
+   return (
         <div>
             <form onSubmit={formik.handleSubmit}>
                 <Input formik={formik} label='Name' name='name' />
@@ -49,7 +65,10 @@ const SingUpForm = () => {
                 <Input formik={formik} label='Phone Number' name='phoneNumber' />
                 <Input formik={formik} label='Password' name='password' />
                 <Input formik={formik} label='Password Confirmation' name='passwordConfirm' />
-                <RadioInput formik={formik} radioOption={radioOtion} name='gender'/>
+                <RadioInput formik={formik} radioOption={radioOtion} name='gender' /> 
+                <Select formik={formik} name='nationality' selectOption={selectOption} /> 
+                <CheckBoxInput formik={formik} name='intrests' checkBoxOption={checkBoxOption} />
+                <BooleanInput formik={formik} name='terms' label='Terms and conditions'/> 
                <button type='submit' disabled={!formik.isValid}>Sing Up</button>
             </form>
         

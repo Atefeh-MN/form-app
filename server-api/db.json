@@ -1,11 +1,33 @@
 {
-  "users": [{
-        "id":"1",    
-        "name": "atefeh",
-        "email": "atefeh@gamil.com",
-        "phoneNumber": "09334670011",
-        "password": "saeedsohbati",
-        "passwordConfirm": "saeedsohbati",
-       " gender":"1"
-  }
-  ]}
+  "users": [
+    {
+      "name": "atefeh",
+      "email": "atefeeemn@gmail.com",
+      "phoneNumber": "09334670011",
+      "password": "saeedsohbati",
+      "passwordConfirm": "saeedsohbati",
+      "gender": "1",
+      "nationality": "IR",
+      "intrests": [
+        "React.js"
+      ],
+      "terms": true,
+      "id": 1
+    },
+    {
+      "name": "saeed22",
+      "email": "sohbati@ex.com",
+      "phoneNumber": "09334670022",
+      "password": "saeedsohbatitt",
+      "passwordConfirm": "saeedsohbatitt",
+      "gender": "0",
+      "nationality": "GEM",
+      "intrests": [
+        "React.js",
+        "Vue.js"
+      ],
+      "terms": true,
+      "id": 2
+    }
+  ]
+}
